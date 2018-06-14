@@ -1,10 +1,9 @@
 @file:JvmName("Main")
 
-package rzaevali.heroku
+package rzaevali.parser
 
-import rzaevali.routes.vyatsuRoutes
-import rzaevali.routes.vyatsuV2Routes
-import spark.Spark.*
+import rzaevali.routes.parseRoute
+import spark.Spark.port
 
 fun main(args: Array<String>) {
     val defaultPort = "8080"
@@ -17,6 +16,5 @@ fun main(args: Array<String>) {
 
     port(port.toInt())
 
-    vyatsuRoutes()
-    vyatsuV2Routes()
+    parseRoute()
 }

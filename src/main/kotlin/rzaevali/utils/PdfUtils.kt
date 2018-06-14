@@ -12,10 +12,10 @@ import technology.tabula.extractors.SpreadsheetExtractionAlgorithm
 import java.io.IOException
 import java.io.InputStream
 
-        /**
-         * Type alias for three-dimension array of strings for representing schedule.
-         * First index - week, second - day, third - lesson
-         */
+/**
+ * Type alias for three-dimension array of strings for representing schedule.
+ * First index - week, second - day, third - lesson
+ */
 typealias NestedList = List<List<List<String>>>
 
 private val logger = LogManager.getLogger("PdfUtils")
@@ -53,7 +53,7 @@ private fun extractRows(stream: InputStream): List<String> {
         logger.error("An exception was raised during extracting of rows")
         logger.throwing(ex)
 
-        throw PdfFileProcessingException("Error while processing pdf file")
+        throw PdfFileProcessingException("PDF_PARSE_ERROR")
     }
 
 }
@@ -74,7 +74,7 @@ fun extractSchedule(stream: InputStream): NestedList {
     if (rows.size != daysCount * lessonsPerDay) {
         logger.error("The count of rows doesn't equal to ${daysCount * lessonsPerDay}: ${rows.size}")
 
-        throw PdfFileFormatException("Invalid pdf file")
+        throw PdfFileFormatException("INVALID_ROW_COUNT")
     }
 
     val days = (0..13).asSequence().map { day ->
@@ -104,7 +104,7 @@ fun extractSchedule(url: String): NestedList {
         logger.error("An exception was raised during downloading of pdf file")
         logger.throwing(ex)
 
-        throw VyatsuServerException("vyatsu.ru server error")
+        throw VyatsuServerException("VYATSU_RU_ERROR")
     }
 }
 
