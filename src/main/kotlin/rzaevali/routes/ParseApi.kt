@@ -20,7 +20,7 @@ fun parseRoute() {
         ))
 
         try {
-            logger.info("api/v1/parse_pdf: $url")
+            logger.info(url)
 
             val schedule = extractSchedule(url)
 
@@ -29,7 +29,7 @@ fun parseRoute() {
                     Schedule(schedule)
             ))
         } catch (ex: VyatsuScheduleException) {
-            logger.error("api/v1/parse_pdf: $url")
+            logger.error(url)
             logger.throwing(ex)
 
             val msg = ex.message ?: ""
@@ -38,7 +38,7 @@ fun parseRoute() {
                     null
             ))
         } catch (ex: Exception) {
-            logger.error("api/v1/parse_pdf: $url")
+            logger.error(url)
             logger.throwing(ex)
 
             return@get gson.toJson(Response(
