@@ -45,8 +45,9 @@ private fun extractRows(stream: InputStream): List<String> {
                                 .joinToString(" ")
                     }
                     .map { text -> text.replace('\r', ' ') }
-                    .filter { text -> text.matches(Regex("\\d{2}:\\d{2}-\\d{2}:\\d{2}\\s*.*")) }
+                    .filter { text -> text.matches(Regex("\\d{2}:\\d{2}-\\d{2}:\\d{2}\\s*.*")) || text.isNotEmpty() }
                     .map { text -> text.replaceFirst(Regex("\\d{2}:\\d{2}-\\d{2}:\\d{2}\\s*"), "") }
+                    .drop(2)
                     .toList()
         }
     } catch (ex: Exception) {
