@@ -6,7 +6,7 @@ import rzaevali.routes.parseRoute
 import spark.Spark.port
 
 fun main(args: Array<String>) {
-    val defaultPort = "8080"
+    val defaultPort = "80"
     val portVar = System.getenv("PORT") ?: ""
     val port = if (portVar.isEmpty()) {
         defaultPort
