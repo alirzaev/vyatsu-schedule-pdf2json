@@ -1,32 +1,55 @@
-# VyatSU schedule pdf parser
+# VyatSU schedule PDF parser
+
+This application provides RESTful API for converting PDF files with student group schedules into JSON
+
+Designed for [Vyatka State University](www.vyatsu.ru)
 
 ## Usage
 
-### Compile JAR archive with dependencies
+### Compile JAR with dependencies
 
 `mvn -DskipTests package`
 
 ### Run server
 
-Environment variables:
+- Environment variables:
 
-- `PORT` - port on which listen requests, default `80`
+  - `PORT` - port on which listen to requests, default `80`
 
-If you don't want to compile JAR:
+- If you don't want to compile JAR:
 
-`mvn -DskipTests compile exec:java`
+  `mvn -DskipTests compile exec:java`
 
-And if you have already compiled JAR:
+- And if you have already compiled JAR:
 
-`java -jar target/vyatsu_pdf_parser-jar-with-dependencies.jar`
+  `java -jar target/vyatsu_pdf_parser-jar-with-dependencies.jar`
 
 ### API
 
-`/api/v1/parse_pdf?url=<URL_TO_PDF>` - parse pdf file. `URL_TO_PDF` - url to pdf file to be parsed
+`/api/v1/parse_pdf` - get group schedule in JSON format from the given link (PDF file)
+
+Query params:
+
+- `url` - URL to the PDF file
+
+Request example:
+
+```http
+GET /api/v1/parse_pdf?url=https://www.vyatsu.ru/reports/schedule/Group/10820_1.pdf HTTP/1.1
+```
 
 Success response example:
 
-```json
+```http
+HTTP/1.1 200 OK
+Connection: keep-alive
+Content-Encoding: gzip
+Content-Type: application/json
+Date: Wed, 05 Dec 2018 12:54:18 GMT
+Server: nginx
+Transfer-Encoding: chunked
+Vary: Accept-Encoding
+
 {
   "meta": {
     "status": 200,
@@ -153,47 +176,97 @@ Success response example:
 
 Error response examples:
 
-```json
-{
-  "meta": {
-    "status": 422,
-    "error": "PDF_PARSE_ERROR"
-  }
-}
-```
+- Error uccured during PDF file parsing (invalid PDF file)
+  ```http
+  HTTP/1.1 200 OK
+  Connection: keep-alive
+  Content-Encoding: gzip
+  Content-Type: application/json
+  Date: Wed, 05 Dec 2018 12:54:18 GMT
+  Server: nginx
+  Transfer-Encoding: chunked
+  Vary: Accept-Encoding
 
-```json
-{
-  "meta": {
-    "status": 422,
-    "error": "INVALID_ROW_COUNT"
+  {
+    "meta": {
+      "status": 422,
+      "error": "PDF_PARSE_ERROR"
+    }
   }
-}
-```
+  ```
 
-```json
-{
-  "meta": {
-    "status": 422,
-    "error": "VYATSU_RU_ERROR"
-  }
-}
-```
+- PDF file was successfully parsed but total count of rows representing lessons is invalid (doesn't equal to 14x7)
+  ```http
+  HTTP/1.1 200 OK
+  Connection: keep-alive
+  Content-Encoding: gzip
+  Content-Type: application/json
+  Date: Wed, 05 Dec 2018 12:54:18 GMT
+  Server: nginx
+  Transfer-Encoding: chunked
+  Vary: Accept-Encoding
 
-```json
-{
-  "meta": {
-    "status": 500,
-    "error": "INTERNAL_SERVER_ERROR"
+  {
+    "meta": {
+      "status": 422,
+      "error": "INVALID_ROW_COUNT"
+    }
   }
-}
-```
+  ```
 
-```json
-{
-  "meta": {
-    "status": 500,
-    "error": "NO_URL"
+- VyatSU server doesn't response
+  ```http
+  HTTP/1.1 200 OK
+  Connection: keep-alive
+  Content-Encoding: gzip
+  Content-Type: application/json
+  Date: Wed, 05 Dec 2018 12:54:18 GMT
+  Server: nginx
+  Transfer-Encoding: chunked
+  Vary: Accept-Encoding
+
+  {
+    "meta": {
+      "status": 422,
+      "error": "VYATSU_RU_ERROR"
+    }
   }
-}
-```
+  ```
+
+- Unexpected error occured during PDF file parsing
+  ```http
+  HTTP/1.1 200 OK
+  Connection: keep-alive
+  Content-Encoding: gzip
+  Content-Type: application/json
+  Date: Wed, 05 Dec 2018 12:54:18 GMT
+  Server: nginx
+  Transfer-Encoding: chunked
+  Vary: Accept-Encoding
+
+  {
+    "meta": {
+      "status": 500,
+      "error": "INTERNAL_SERVER_ERROR"
+    }
+  }
+  ```
+
+- Seems like you did't provide URL to PDF file
+  ```http
+  HTTP/1.1 200 OK
+  Connection: keep-alive
+  Content-Encoding: gzip
+  Content-Type: application/json
+  Date: Wed, 05 Dec 2018 12:54:18 GMT
+  Server: nginx
+  Transfer-Encoding: chunked
+  Vary: Accept-Encoding
+
+  {
+    "meta": {
+      "status": 500,
+      "error": "NO_URL"
+    }
+  }
+  ```
