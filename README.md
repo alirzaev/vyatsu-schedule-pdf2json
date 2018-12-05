@@ -188,3 +188,12 @@ Error response examples:
   }
 }
 ```
+
+```json
+{
+  "meta": {
+    "status": 500,
+    "error": "NO_URL"
+  }
+}
+```
