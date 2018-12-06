@@ -3,12 +3,12 @@ package rzaevali.utils
 import com.mashape.unirest.http.Unirest
 import org.apache.logging.log4j.LogManager
 import org.apache.pdfbox.pdmodel.PDDocument
+import rzaevali.algo.LeftToRightExtractionAlgorithm
 import rzaevali.exceptions.PdfFileFormatException
 import rzaevali.exceptions.PdfFileProcessingException
 import rzaevali.exceptions.VyatsuScheduleException
 import rzaevali.exceptions.VyatsuServerException
 import technology.tabula.ObjectExtractor
-import technology.tabula.extractors.SpreadsheetExtractionAlgorithm
 import java.io.IOException
 import java.io.InputStream
 
@@ -33,7 +33,7 @@ private fun extractRows(stream: InputStream): List<String> {
     try {
         PDDocument.load(stream).use { pdfDocument ->
             val pageIterator = ObjectExtractor(pdfDocument).extract()
-            val algorithm = SpreadsheetExtractionAlgorithm()
+            val algorithm = LeftToRightExtractionAlgorithm()
 
             return pageIterator.asSequence()
                     .flatMap { page -> algorithm.extract(page).asSequence() }
