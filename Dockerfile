@@ -7,4 +7,4 @@ COPY . /usr/src/project/
 
 RUN ["mvn", "-DskipTests", "package"]
 
-CMD ["java", "-jar", "target/vyatsu_pdf_parser-jar-with-dependencies.jar"]
+CMD ["java", "-jar", "target/pdf2json-jar-with-dependencies.jar"]

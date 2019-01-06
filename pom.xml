@@ -4,9 +4,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>rzaevali</groupId>
-    <artifactId>vyatsu_pdf_parser</artifactId>
+    <artifactId>pdf2json</artifactId>
     <version>1.0</version>
-    <name>vyatsu_pdf_parser</name>
+    <name>pdf2json</name>
 
     <dependencies>
         <dependency>
@@ -78,7 +78,7 @@
     </dependencies>
 
     <build>
-        <finalName>vyatsu_pdf_parser</finalName>
+        <finalName>pdf2json</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

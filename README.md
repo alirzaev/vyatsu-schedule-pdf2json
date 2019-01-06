@@ -22,7 +22,7 @@ Designed for [Vyatka State University](www.vyatsu.ru)
 
 - And if you have already compiled JAR:
 
-  `java -jar target/vyatsu_pdf_parser-jar-with-dependencies.jar`
+  `java -jar target/pdf2json-jar-with-dependencies.jar`
 
 ### API
 
