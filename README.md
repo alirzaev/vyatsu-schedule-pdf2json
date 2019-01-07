@@ -1,4 +1,4 @@
-# VyatSU schedule PDF parser
+# VyatSU schedule PDF2JSON converter
 
 This application provides RESTful API for converting PDF files with student group schedules into JSON
 
@@ -26,7 +26,7 @@ Designed for [Vyatka State University](www.vyatsu.ru)
 
 ### API
 
-`/api/v1/parse_pdf` - get group schedule in JSON format from the given link (PDF file)
+`/api/v2/convert` - convert group schedule from PDF file (via URL) into JSON
 
 Query params:
 
@@ -35,7 +35,7 @@ Query params:
 Request example:
 
 ```http
-GET /api/v1/parse_pdf?url=https://www.vyatsu.ru/reports/schedule/Group/10820_1.pdf HTTP/1.1
+GET /api/v2/convert?url=https://www.vyatsu.ru/reports/schedule/Group/10820_1.pdf HTTP/1.1
 ```
 
 Success response example:
@@ -53,7 +53,7 @@ Vary: Accept-Encoding
 {
   "meta": {
     "status": 200,
-    "success": "PARSED"
+    "success": "CONVERTED"
   },
   "data": {
     "schedule": [
@@ -176,7 +176,7 @@ Vary: Accept-Encoding
 
 Error response examples:
 
-- Error uccured during PDF file parsing (invalid PDF file)
+- Error occurred during PDF file parsing (invalid PDF file)
   ```http
   HTTP/1.1 200 OK
   Connection: keep-alive
@@ -195,7 +195,8 @@ Error response examples:
   }
   ```
 
-- PDF file was successfully parsed but total count of rows representing lessons is invalid (doesn't equal to 14x7)
+- PDF file was successfully parsed but total count of rows
+  representing lessons is invalid (doesn't equal to 14x7)
   ```http
   HTTP/1.1 200 OK
   Connection: keep-alive
@@ -214,26 +215,7 @@ Error response examples:
   }
   ```
 
-- VyatSU server doesn't response
-  ```http
-  HTTP/1.1 200 OK
-  Connection: keep-alive
-  Content-Encoding: gzip
-  Content-Type: application/json
-  Date: Wed, 05 Dec 2018 12:54:18 GMT
-  Server: nginx
-  Transfer-Encoding: chunked
-  Vary: Accept-Encoding
-
-  {
-    "meta": {
-      "status": 422,
-      "error": "VYATSU_RU_ERROR"
-    }
-  }
-  ```
-
-- Unexpected error occured during PDF file parsing
+- Unknown error occurred during PDF file parsing
   ```http
   HTTP/1.1 200 OK
   Connection: keep-alive

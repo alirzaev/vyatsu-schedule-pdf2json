@@ -99,7 +99,7 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>1.6.0</version>
                 <configuration>
-                    <mainClass>rzaevali.parser.Main</mainClass>
+                    <mainClass>rzaevali.pdf2json.Main</mainClass>
                 </configuration>
             </plugin>
 
@@ -212,7 +212,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>rzaevali.parser.Main</mainClass>
+                            <mainClass>rzaevali.pdf2json.Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

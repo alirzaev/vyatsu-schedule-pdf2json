@@ -1,8 +1,8 @@
 @file:JvmName("Main")
 
-package rzaevali.parser
+package rzaevali.pdf2json
 
-import rzaevali.routes.parseRoute
+import rzaevali.routes.convertRoute
 import spark.Spark.port
 
 fun main(args: Array<String>) {
@@ -16,5 +16,5 @@ fun main(args: Array<String>) {
 
     port(port.toInt())
 
-    parseRoute()
+    convertRoute()
 }

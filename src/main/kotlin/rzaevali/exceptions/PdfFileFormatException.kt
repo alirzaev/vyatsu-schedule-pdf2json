@@ -1,3 +1,3 @@
 package rzaevali.exceptions
 
-class PdfFileFormatException(message: String) : VyatsuScheduleException(message)
+class PdfFileFormatException(message: String) : Pdf2JsonException(message)
