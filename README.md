@@ -1,44 +1,58 @@
-# VyatSU schedule PDF2JSON converter
+# pdf2json-конвертер для VyatSU schedule
 
-This application provides RESTful API for converting PDF files with student group schedules into JSON
+Данный сервер предоставляет REST API для перевода PDF-файлов с расписанием в JSON.
 
-Designed for [Vyatka State University](www.vyatsu.ru)
+Разработано для [Вятского государственного университета](https://www.vyatsu.ru).
 
-## Usage
+## Для разработчиков
 
-### Compile JAR with dependencies
+### Необходимые переменные окружения
+
+`PORT` - порт, который сервер будет слушать, по умолчанию `80`.
+
+### Сборка самодостоточного JAR-архива
 
 `mvn -DskipTests package`
 
-### Run server
+### Запуск
 
-- Environment variables:
-
-  - `PORT` - port on which listen to requests, default `80`
-
-- If you don't want to compile JAR:
+- Без предварительной сборки JAR-архива:
 
   `mvn -DskipTests compile exec:java`
 
-- And if you have already compiled JAR:
+- И если архив уже собран:
 
   `java -jar target/pdf2json-jar-with-dependencies.jar`
 
+### Docker
+
+1. Собираем образ
+
+   ```
+   docker build -t imagename .
+   ```
+
+2. Запускаем
+
+   ```
+   docker run --name somename -d -p 8080:80 imagename
+   ```
+
 ### API
 
-`/api/v2/convert` - convert group schedule from PDF file (via URL) into JSON
+`/api/v2/convert` - перевести PDF-файл с расписанием в JSON
 
-Query params:
+Параметры строки запроса (query string):
 
-- `url` - URL to the PDF file
+- `url` - URL PDF-файла
 
-Request example:
+Пример запроса:
 
 ```http
 GET /api/v2/convert?url=https://www.vyatsu.ru/reports/schedule/Group/10820_1.pdf HTTP/1.1
 ```
 
-Success response example:
+Пример успешно выполненного запроса:
 
 ```http
 HTTP/1.1 200 OK
@@ -174,9 +188,9 @@ Vary: Accept-Encoding
 }
 ```
 
-Error response examples:
+Примеры неудачно завершенных запросов:
 
-- Error occurred during PDF file parsing (invalid PDF file)
+- Ошибка при разборе PDF-файла (битый файл)
   ```http
   HTTP/1.1 200 OK
   Connection: keep-alive
@@ -195,8 +209,8 @@ Error response examples:
   }
   ```
 
-- PDF file was successfully parsed but total count of rows
-  representing lessons is invalid (doesn't equal to 14x7)
+- Данные из файла извлечены, но при проверке оказалось, что количество строк
+  в расписанни не соответствует контрольному значению (14x7).
   ```http
   HTTP/1.1 200 OK
   Connection: keep-alive
@@ -215,7 +229,7 @@ Error response examples:
   }
   ```
 
-- Unknown error occurred during PDF file parsing
+- Неизвестная ошибка
   ```http
   HTTP/1.1 200 OK
   Connection: keep-alive
@@ -234,7 +248,7 @@ Error response examples:
   }
   ```
 
-- Seems like you did't provide URL to PDF file
+- Не предоставлен URL для PDF-файла
   ```http
   HTTP/1.1 200 OK
   Connection: keep-alive
