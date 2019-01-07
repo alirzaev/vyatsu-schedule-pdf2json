@@ -6,10 +6,8 @@ import org.apache.pdfbox.pdmodel.PDDocument
 import rzaevali.algo.LeftToRightExtractionAlgorithm
 import rzaevali.exceptions.PdfFileFormatException
 import rzaevali.exceptions.PdfFileProcessingException
-import rzaevali.exceptions.VyatsuScheduleException
-import rzaevali.exceptions.VyatsuServerException
+import rzaevali.exceptions.Pdf2JsonException
 import technology.tabula.ObjectExtractor
-import java.io.IOException
 import java.io.InputStream
 
 /**
@@ -64,9 +62,9 @@ private fun extractRows(stream: InputStream): List<String> {
  *
  * @param stream InputStream instance of pdf document with schedule
  * @return schedule as three-dimension array
- * @throws VyatsuScheduleException if some errors occurred during extraction
+ * @throws Pdf2JsonException if some errors occurred during extraction
  */
-@Throws(VyatsuScheduleException::class)
+@Throws(Pdf2JsonException::class)
 fun extractSchedule(stream: InputStream): NestedList {
     val daysCount = 14
     val lessonsPerDay = 7
@@ -95,18 +93,11 @@ fun extractSchedule(stream: InputStream): NestedList {
  *
  * @param url URL of the pdf document with schedule
  * @return schedule as three-dimension array
- * @throws VyatsuScheduleException if some errors occurred during extraction
+ * @throws Pdf2JsonException if some errors occurred during extraction
  */
-@Throws(VyatsuScheduleException::class)
+@Throws(Pdf2JsonException::class)
 fun extractSchedule(url: String): NestedList {
-    try {
-        return extractSchedule(Unirest.get(url).asBinary().body)
-    } catch (ex: IOException) {
-        logger.error("An exception was raised during downloading of pdf file")
-        logger.throwing(ex)
-
-        throw VyatsuServerException("VYATSU_RU_ERROR")
-    }
+    return extractSchedule(Unirest.get(url).asBinary().body)
 }
 
 

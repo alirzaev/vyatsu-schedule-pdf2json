@@ -2,16 +2,16 @@ package rzaevali.routes
 
 import com.google.gson.Gson
 import org.apache.logging.log4j.LogManager
-import rzaevali.exceptions.VyatsuScheduleException
+import rzaevali.exceptions.Pdf2JsonException
 import rzaevali.utils.*
 import spark.Spark.get
 
-private val logger = LogManager.getLogger("api/v1/parse_pdf")
+private val logger = LogManager.getLogger("api/v2/convert")
 
 private val gson = Gson()
 
-fun parseRoute() {
-    get("/api/v1/parse_pdf") { req, res ->
+fun convertRoute() {
+    get("/api/v2/convert") { req, res ->
         res.type("application/json")
 
         val url = req.queryParams("url") ?: return@get gson.toJson(Response(
@@ -25,10 +25,10 @@ fun parseRoute() {
             val schedule = extractSchedule(url)
 
             return@get gson.toJson(Response(
-                    Success(200, "PARSED"),
+                    Success(200, "CONVERTED"),
                     Schedule(schedule)
             ))
-        } catch (ex: VyatsuScheduleException) {
+        } catch (ex: Pdf2JsonException) {
             logger.error(url)
             logger.throwing(ex)
 
