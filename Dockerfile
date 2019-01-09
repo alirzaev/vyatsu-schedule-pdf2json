@@ -1,10 +1,17 @@
-FROM maven:3.6.0-jdk-8-alpine
+FROM maven:3-jdk-11-slim as builder
 
-EXPOSE 80
 
 WORKDIR /usr/src/project/
 COPY . /usr/src/project/
 
 RUN ["mvn", "-DskipTests", "package"]
 
-CMD ["java", "-jar", "target/pdf2json-jar-with-dependencies.jar"]
+
+FROM openjdk:alpine
+
+EXPOSE 80
+
+WORKDIR /usr/src/project/
+COPY --from=builder /usr/src/project/target/pdf2json-jar-with-dependencies.jar pdf2json.jar
+
+CMD ["java", "-jar", "pdf2json.jar"]
