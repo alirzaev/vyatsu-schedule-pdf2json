@@ -1,5 +1,7 @@
 # pdf2json-конвертер для VyatSU schedule
 
+[![pipeline status](https://gitlab.com/vyatsu-schedule/pdf2json/badges/master/pipeline.svg)](https://gitlab.com/vyatsu-schedule/pdf2json/commits/master)
+
 Данный сервер предоставляет REST API для перевода PDF-файлов с расписанием в JSON.
 
 Разработано для [Вятского государственного университета](https://www.vyatsu.ru).
@@ -46,13 +48,16 @@
 
 - `url` - URL PDF-файла
 
-Пример запроса:
+#### Пример
+
+Запрос:
 
 ```http
 GET /api/v2/convert?url=https://www.vyatsu.ru/reports/schedule/Group/10820_1.pdf HTTP/1.1
 ```
 
-Пример успешно выполненного запроса:
+<details>
+<summary>Ответ:</summary>
 
 ```http
 HTTP/1.1 200 OK
@@ -188,7 +193,9 @@ Vary: Accept-Encoding
 }
 ```
 
-Примеры неудачно завершенных запросов:
+</details>
+
+#### Возможные ошибки
 
 - Ошибка при разборе PDF-файла (битый файл)
   ```http
