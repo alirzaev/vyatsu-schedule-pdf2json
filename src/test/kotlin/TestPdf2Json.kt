@@ -15,12 +15,11 @@ class TestPdf2Json {
 
     @ParameterizedTest
     @ValueSource(strings = [
-        "9588", "9592", "9605", "9747", "9748",
-        "9902", "10793", "10829", "10879", "11045"
+        "14518", "14538", "14690"
     ])
     fun testExtraction(groupId: String) {
-        val pdfPath = "src/test/resources/pdf/${groupId}_1_26112018_09122018.pdf"
-        val jsonPath = "src/test/resources/json/${groupId}_1_26112018_09122018.json"
+        val pdfPath = "src/test/resources/pdf/${groupId}_1_01092020_14092020.pdf"
+        val jsonPath = "src/test/resources/json/${groupId}_1_01092020_14092020.json"
 
         val actual = extractSchedule(Files.newInputStream(Paths.get(pdfPath)))
         val data = gson.fromJson(FileReader(jsonPath), Map::class.java)
