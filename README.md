@@ -1,7 +1,5 @@
 # pdf2json-конвертер для VyatSU schedule
 
-[![Build Status](https://travis-ci.org/alirzaev/vyatsu-schedule-pdf2json.svg?branch=master)](https://travis-ci.org/alirzaev/vyatsu-schedule-pdf2json)
-
 Данный сервер предоставляет REST API для перевода PDF-файлов с расписанием в JSON.
 
 Разработано для [Вятского государственного университета](https://www.vyatsu.ru).
